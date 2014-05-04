@@ -1,0 +1,38 @@
+{
+  "name": "explicitobjectmap-node",
+  "version": "0.0.1",
+  "description": "allows mapping of named fields between javascript objects with optional transforms",
+  "main": "src/index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "lodash": "^2.4.1"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.4",
+    "grunt-contrib-jshint": "^0.10.0",
+    "mocha": "^1.18.2",
+    "grunt-mocha-test": "^0.10.2",
+    "should": "^3.3.1",
+    "grunt-contrib-watch": "^0.6.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stevejhiggs/explicitobjectmap-node.git"
+  },
+  "keywords": [
+    "mapper",
+    "mapper",
+    "transform"
+  ],
+  "author": "steve higgs",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stevejhiggs/explicitobjectmap-node/issues"
+  },
+  "homepage": "https://github.com/stevejhiggs/explicitobjectmap-node"
+}
