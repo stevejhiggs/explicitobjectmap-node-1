@@ -14,7 +14,7 @@ describe('for a single object', function(){
 			simpleA: 'alpha',
 			simpleB: 'bravo',
 			simpleC: 'charlie',
-			simpleD: 'delta'
+			simpleD: 'delta',
 		};
 
 		var dstObj = {};
@@ -68,7 +68,7 @@ describe('for a single object', function(){
         });
 	});
 
-	describe('and a mapping with custom transforms', function(){
+	describe('and a mapping with custom value transforms', function(){
 		var mapObj = 
 		[
 			{
@@ -99,6 +99,31 @@ describe('for a single object', function(){
             assert(dstObj.complexnewname === 'ALPHA');
         });
 	});
+
+    describe('and a mapping with post mapping transforms', function(){
+        var mapObj =
+            [
+                "fieldA",
+                function(srcObj,dstObj){
+                    dstObj.Custom = 'fish';
+                }
+            ];
+
+        var srcObj = {
+            fieldA: 'alpha'
+        };
+
+        var dstObj = {};
+
+        beforeEach(function(){
+            var mapper = explicitMapper(mapObj);
+            dstObj = mapper.map(srcObj);
+        });
+
+        it('should run the custom transform', function(){
+            assert(dstObj.Custom === 'fish');
+        });
+    });
 });
 
 describe('for an array of objects', function(){

@@ -18,7 +18,10 @@ Mappings consist of a simple javascript array containing mapping instructions:
 				return val.toUpperCase();
 			}
 		},
-		{'deep.childA': 'baby'} //dot notation is currently only supported when renaming fields
+		{'deep.childA': 'baby'}, //dot notation is currently only supported when renaming fields
+		function(srcObj,dstObj){
+			dstObj.CustomField = 'whatever'; //post mapping function ran after all the other maps are ran 
+		}
 	]
 	
 ### Installation
