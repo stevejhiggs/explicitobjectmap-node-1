@@ -1,6 +1,6 @@
 {
   "name": "explicit-object-mapper",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "allows mapping of named fields between javascript objects with optional transforms",
   "main": "src/index.js",
   "directories": {
@@ -19,17 +19,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/stevejhiggs/explicitobjectmap-node.git"
+    "url": "https://github.com/opentable/explicitobjectmap-node.git"
   },
   "keywords": [
     "mapper",
     "mapper",
     "transform"
   ],
-  "author": "steve higgs",
+  "author": "opentable",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/stevejhiggs/explicitobjectmap-node/issues"
+    "url": "https://github.com/opentable/explicitobjectmap-node/issues"
   },
-  "homepage": "https://github.com/stevejhiggs/explicitobjectmap-node"
+  "homepage": "https://github.com/opentable/explicitobjectmap-node"
 }
