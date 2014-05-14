@@ -80,7 +80,7 @@ function createFunctionCallListFromMapStructure(mapObj){
 	};
 }
 
-function applyAllMappingFunctionCallsToObject(srcObj, mapFunctionCalls){
+function applyAllMappingFunctionCallsToObject(srcObj, mapFunctionCalls, options){
     var dst = {};
 
     for(var functionCallIndex = 0; functionCallIndex < mapFunctionCalls.length; functionCallIndex++) {
@@ -88,26 +88,26 @@ function applyAllMappingFunctionCallsToObject(srcObj, mapFunctionCalls){
 
         transformBlock.transform(srcObj, dst, transformBlock.srcName, transformBlock.dstName);
         if (transformBlock.customTransform) {
-            dst[transformBlock.dstName] = transformBlock.customTransform(srcObj, dst[transformBlock.dstName]);
+            dst[transformBlock.dstName] = transformBlock.customTransform(srcObj, dst[transformBlock.dstName], options);
         }
     }
 
     return dst;
 }
 
-function applyPostMapFunctionCallsToObject(srcObj, dstObj, postMapFunctionCalls){
+function applyPostMapFunctionCallsToObject(srcObj, dstObj, postMapFunctionCalls, options){
 	for(var functionCallIndex = 0; functionCallIndex < postMapFunctionCalls.length; functionCallIndex++) {
 		var postMapFunction = postMapFunctionCalls[functionCallIndex];
-		postMapFunction(srcObj, dstObj);
+		postMapFunction(srcObj, dstObj, options);
 	}
 }
 
-function createMappedObject(srcArr, mapFunctionCalls, postMapFunctionCalls){
+function createMappedObject(srcArr, mapFunctionCalls, postMapFunctionCalls, options){
     var dstArr = [];
 
     for(var srcIndex = 0; srcIndex < srcArr.length; srcIndex++){
-    	var mappedObject = applyAllMappingFunctionCallsToObject(srcArr[srcIndex], mapFunctionCalls);
-    	applyPostMapFunctionCallsToObject(srcArr[srcIndex], mappedObject, postMapFunctionCalls);
+    	var mappedObject = applyAllMappingFunctionCallsToObject(srcArr[srcIndex], mapFunctionCalls, options);
+    	applyPostMapFunctionCallsToObject(srcArr[srcIndex], mappedObject, postMapFunctionCalls, options);
         dstArr.push(mappedObject);
     }
 
@@ -118,11 +118,11 @@ module.exports = function(mapping){
 	var functionCalls = createFunctionCallListFromMapStructure(mapping);
 
 	return {
-        map: function(srcObj) {
+        map: function(srcObj, options) {
         	if (Array.isArray(srcObj)){
-                return createMappedObject(srcObj, functionCalls.mappingCalls, functionCalls.postMapCalls);
+                return createMappedObject(srcObj, functionCalls.mappingCalls, functionCalls.postMapCalls, options);
         	} else {
-        		return createMappedObject([srcObj], functionCalls.mappingCalls, functionCalls.postMapCalls)[0];
+        		return createMappedObject([srcObj], functionCalls.mappingCalls, functionCalls.postMapCalls, options)[0];
         	}
         }
     };

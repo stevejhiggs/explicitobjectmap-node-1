@@ -81,7 +81,7 @@ describe('for a single object', function(){
 		];
 
 		var srcObj = {
-			complexoldname: 'alpha',
+			complexoldname: 'alpha'
 		};
 
 		var dstObj = {};
@@ -129,7 +129,7 @@ describe('for a single object', function(){
 describe('for an array of objects', function(){
 	var mapObj = 
 		[
-			{'simpleA': 'SimpleB'},
+			{'simpleA': 'SimpleB'}
 		];
 
 		var srcObj = {
@@ -147,4 +147,39 @@ describe('for an array of objects', function(){
             assert(dstObj.length === 2);
             assert(dstObj[1].SimpleB === 'alpha')
         });
+});
+
+describe('for a single object and given custom mapping args', function(){
+    var mapObj =
+        [
+            {
+                srcName:'complexoldname',
+                dstName:'complexnewname',
+                customTransform: function (srcObj, val, options){
+                    return options.breadVal.toUpperCase();
+                }
+            },
+            function(srcObj,dstObj, options){
+                dstObj.Custom = options.fishVal;
+            }
+        ];
+
+    var srcObj = {
+        simpleA: 'alpha'
+    };
+
+    var dstObj = {};
+
+    beforeEach(function(){
+        var mapper = explicitMapper(mapObj);
+        dstObj = mapper.map(srcObj, { fishVal:'haddock', breadVal:'loaf' });
+    });
+
+    it('it should pass the mapping options to a custom element mapping function', function(){
+        assert(dstObj.complexnewname === 'LOAF');
+    });
+
+    it('it should pass the mapping options to a post mapping function', function(){
+        assert(dstObj.Custom === 'haddock');
+    });
 });
