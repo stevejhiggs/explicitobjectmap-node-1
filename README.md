@@ -43,7 +43,7 @@ Mappings consist of a simple javascript array containing mapping instructions:
 	};
 
 	var mapper = explicitObjectMapper(mapObj);
-	var dstObj = mapper.map(scrObj);
+	var dstObj = mapper.map(srcObj);
 	
 The output from the above would be:
 
@@ -57,3 +57,28 @@ If an array of objects is passed in then all objects will be mapped and returned
 
 ### speed
 There is some overhead to the mapping process depending on map size and the amount of source data; this can be mitigated a little by creating the mappings ahead of time and reusing them.
+
+### changes in 0.0.4
+
+#### optional args to map
+map can be called with an optional options variable:
+	
+	mapper.map(srcObj, {myVal: true, myOtherVal:'biscuit'});
+	
+This object is then passed into any custom mapping functions:
+
+	[
+		'simpleA',
+		{'oldname':'newname'},
+		{
+			srcName:'complexoldname',
+			dstName:'complexnewname',
+			customTransform: function (srcObj, val, options){
+				return val.toUpperCase() + options.myOtherVal;
+			}
+		},
+		function(srcObj,dstObj, options){
+			dstObj.CustomField = 'whatever'; //post mapping function ran after all the other maps are ran 
+		}
+	]
+
