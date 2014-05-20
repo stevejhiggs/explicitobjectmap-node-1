@@ -7,7 +7,8 @@ describe('for a single object', function(){
 		var mapObj = 
 		[
 			'simpleA',
-			'simpleC'
+			'simpleC',
+            'falsy'
 		];
 
 		var srcObj = {
@@ -15,6 +16,7 @@ describe('for a single object', function(){
 			simpleB: 'bravo',
 			simpleC: 'charlie',
 			simpleD: 'delta',
+            falsy: false
 		};
 
 		var dstObj = {};
@@ -35,6 +37,10 @@ describe('for a single object', function(){
 
         it('shouldnt copy fields that do not exist in the map', function(){
             assert(!dstObj.simpleD);
+        });
+
+        it('should copy falsy fields', function() {
+            assert(dstObj.falsy !== undefined);
         });
 	});
 
@@ -156,7 +162,7 @@ describe('for a single object and given custom mapping args', function(){
                 srcName:'complexoldname',
                 dstName:'complexnewname',
                 customTransform: function (srcObj, val, options){
-                    return options.breadVal.toUpperCase();
+                    return val + options.breadVal.toUpperCase();
                 }
             },
             function(srcObj,dstObj, options){
@@ -165,7 +171,8 @@ describe('for a single object and given custom mapping args', function(){
         ];
 
     var srcObj = {
-        simpleA: 'alpha'
+        simpleA: 'alpha',
+        complexoldname: 'oldVal'
     };
 
     var dstObj = {};
@@ -176,7 +183,7 @@ describe('for a single object and given custom mapping args', function(){
     });
 
     it('it should pass the mapping options to a custom element mapping function', function(){
-        assert(dstObj.complexnewname === 'LOAF');
+        assert(dstObj.complexnewname === 'oldValLOAF');
     });
 
     it('it should pass the mapping options to a post mapping function', function(){

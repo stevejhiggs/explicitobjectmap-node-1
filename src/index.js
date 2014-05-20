@@ -4,9 +4,12 @@ var _ = require("lodash");
 
 function copyVal(src, dst, srcName, dstName) {
     var val = src[srcName];
-    if (val) {
+    if (val !== undefined) {
         dst[dstName] = src[srcName];
+        return true;
     }
+
+    return false;
 }
 
 function getObjectViaDotNotation(name, context){
@@ -20,9 +23,12 @@ function getObjectViaDotNotation(name, context){
 
 function copyValWithDotNotation(src, dst, srcName, dstName){
 	var val = getObjectViaDotNotation(srcName, src);
-	if (val) {
+	if (val !== undefined) {
 		dst[dstName] = val;
+        return true;
 	}
+
+    return false;
 }
 
 function createFunctionCallListFromMapStructure(mapObj){
@@ -86,8 +92,7 @@ function applyAllMappingFunctionCallsToObject(srcObj, mapFunctionCalls, options)
     for(var functionCallIndex = 0; functionCallIndex < mapFunctionCalls.length; functionCallIndex++) {
         var transformBlock = mapFunctionCalls[functionCallIndex];
 
-        transformBlock.transform(srcObj, dst, transformBlock.srcName, transformBlock.dstName);
-        if (transformBlock.customTransform) {
+        if (transformBlock.transform(srcObj, dst, transformBlock.srcName, transformBlock.dstName) && transformBlock.customTransform){
             dst[transformBlock.dstName] = transformBlock.customTransform(srcObj, dst[transformBlock.dstName], options);
         }
     }
