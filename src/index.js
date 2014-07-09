@@ -124,6 +124,10 @@ module.exports = function(mapping){
 
 	return {
         map: function(srcObj, options) {
+            if(!srcObj){
+                return null;
+            }
+
         	if (Array.isArray(srcObj)){
                 return createMappedObject(srcObj, functionCalls.mappingCalls, functionCalls.postMapCalls, options);
         	} else {
