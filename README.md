@@ -3,6 +3,10 @@ explicit-object-mapper
 
 Map named fields from one json object to another with optional transforms. Any fields not named in the map will not be copied to the destination object
 
+[![Build Status](https://travis-ci.org/opentable/explicit-object-mapper.svg?branch=master)](https://travis-ci.org/opentable/explicit-object-mapper)
+
+[![NPM](https://nodei.co/npm/explicit-object-mapper.png)](https://nodei.co/npm/explicit-object-mapper)
+
 Mappings consist of a simple javascript array containing mapping instructions:
 
 	[
