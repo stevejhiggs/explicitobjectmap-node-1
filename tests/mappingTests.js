@@ -3,6 +3,16 @@ var assert = require('assert'),
 
 describe('for a single object', function(){
 
+    it('shouldn\'t break when given a null object', function(){
+        var mapObj = [ "MyField" ];
+        var srcObj = null;
+
+        var mapper = explicitMapper(mapObj);
+        var dstObj = mapper.map(srcObj);
+
+        assert(dstObj === null);
+    });
+
 	describe('and a mapping consisting of simple copies', function(){
 		var mapObj = 
 		[
