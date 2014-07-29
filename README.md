@@ -58,6 +58,11 @@ If an array of objects is passed in then all objects will be mapped and returned
 ### speed
 There is some overhead to the mapping process depending on map size and the amount of source data; this can be mitigated a little by creating the mappings ahead of time and reusing them.
 
+### changes in 0.0.6
+
+#### null values now handled correctly
+Null values were still not handled properly; They will now get mapped
+
 ### changes in 0.0.5
 
 #### falsy values now handled correctly
