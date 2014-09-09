@@ -1,5 +1,5 @@
 var assert = require('assert'),
-	explicitMapper = require('../src/index')
+    explicitMapper = require('../src/index')
 
 describe('for a single object', function(){
 
@@ -13,30 +13,30 @@ describe('for a single object', function(){
         assert(dstObj === null);
     });
 
-	describe('and a mapping consisting of simple copies', function(){
-		var mapObj = 
-		[
-			'simpleA',
-			'simpleC',
+    describe('and a mapping consisting of simple copies', function(){
+        var mapObj =
+        [
+            'simpleA',
+            'simpleC',
             'falsy'
-		];
+        ];
 
-		var srcObj = {
-			simpleA: 'alpha',
-			simpleB: 'bravo',
-			simpleC: 'charlie',
-			simpleD: 'delta',
+        var srcObj = {
+            simpleA: 'alpha',
+            simpleB: 'bravo',
+            simpleC: 'charlie',
+            simpleD: 'delta',
             falsy: false
-		};
+        };
 
-		var dstObj = {};
+        var dstObj = {};
 
-		beforeEach(function(){
-			var mapper = explicitMapper(mapObj);
-			dstObj = mapper.map(srcObj);
-		});
+        beforeEach(function(){
+            var mapper = explicitMapper(mapObj);
+            dstObj = mapper.map(srcObj);
+        });
 
-		it('should copy mapped fields that exist to the destination', function(){
+        it('should copy mapped fields that exist to the destination', function(){
             assert(dstObj.simpleA === 'alpha');
             assert(dstObj.simpleC === 'charlie');
         });
@@ -52,69 +52,69 @@ describe('for a single object', function(){
         it('should copy falsy fields', function() {
             assert(dstObj.falsy !== undefined);
         });
-	});
+    });
 
-	describe('and a mapping consisting of field aliases', function(){
-		var mapObj = 
-		[
-			{'oldName' : 'newName'},
-			{'sub.deep' : 'shallow'}
-		];
+    describe('and a mapping consisting of field aliases', function(){
+        var mapObj =
+        [
+            {'oldName' : 'newName'},
+            {'sub.deep' : 'shallow'}
+        ];
 
-		var srcObj = {
-			oldName: 'alpha',
-			sub: {
-				deep: 'beta'
-			}
-		};
+        var srcObj = {
+            oldName: 'alpha',
+            sub: {
+                deep: 'beta'
+            }
+        };
 
-		var dstObj = {};
+        var dstObj = {};
 
-		beforeEach(function(){
-			var mapper = explicitMapper(mapObj);
-			dstObj = mapper.map(srcObj);
-		});
+        beforeEach(function(){
+            var mapper = explicitMapper(mapObj);
+            dstObj = mapper.map(srcObj);
+        });
 
-		it('should map the old field to the new field', function(){
+        it('should map the old field to the new field', function(){
             assert(dstObj.newName === 'alpha');
         });
 
         it('should handle dot notation in the source field', function(){
             assert(dstObj.shallow === 'beta');
         });
-	});
+    });
 
-	describe('and a mapping with custom value transforms', function(){
-		var mapObj = 
-		[
-			{
-				srcName:'complexoldname',
-				dstName:'complexnewname',
-				customTransform: function (srcObj, val){
-					return val.toUpperCase();
-				}
-			}
-		];
+    describe('and a mapping with custom value transforms', function(){
+        var mapObj =
+        [
+            {
+                srcName:'complexoldname',
+                dstName:'complexnewname',
+                customTransform: function (srcObj, val){
+                    return val.toUpperCase();
+                }
+            }
+        ];
 
-		var srcObj = {
-			complexoldname: 'alpha'
-		};
+        var srcObj = {
+            complexoldname: 'alpha'
+        };
 
-		var dstObj = {};
+        var dstObj = {};
 
-		beforeEach(function(){
-			var mapper = explicitMapper(mapObj);
-			dstObj = mapper.map(srcObj);
-		});
+        beforeEach(function(){
+            var mapper = explicitMapper(mapObj);
+            dstObj = mapper.map(srcObj);
+        });
 
-		it('should map the old field to the new field', function(){
+        it('should map the old field to the new field', function(){
             assert(dstObj.complexnewname);
         });
 
         it('should run the custom transform', function(){
             assert(dstObj.complexnewname === 'ALPHA');
         });
-	});
+    });
 
     describe('and a mapping with post mapping transforms', function(){
         var mapObj =
@@ -143,23 +143,23 @@ describe('for a single object', function(){
 });
 
 describe('for an array of objects', function(){
-	var mapObj = 
-		[
-			{'simpleA': 'SimpleB'}
-		];
+    var mapObj =
+        [
+            {'simpleA': 'SimpleB'}
+        ];
 
-		var srcObj = {
-			simpleA: 'alpha'
-		};
+        var srcObj = {
+            simpleA: 'alpha'
+        };
 
-		var dstObj = {};
+        var dstObj = {};
 
-		beforeEach(function(){
-			var mapper = explicitMapper(mapObj);
-			dstObj = mapper.map([srcObj, srcObj]);
-		});
+        beforeEach(function(){
+            var mapper = explicitMapper(mapObj);
+            dstObj = mapper.map([srcObj, srcObj]);
+        });
 
-		it('should map all elements of the array', function(){
+        it('should map all elements of the array', function(){
             assert(dstObj.length === 2);
             assert(dstObj[1].SimpleB === 'alpha')
         });
