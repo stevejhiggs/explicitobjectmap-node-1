@@ -200,3 +200,39 @@ describe('for a single object and given custom mapping args', function(){
         assert(dstObj.Custom === 'haddock');
     });
 });
+
+
+describe('for a single object and given a mapper to map composite objects', function(){
+    var internalMap = [ {"simpleB":"newSimpleB"} ];
+    var mapObj =
+        [
+            "simpleA",
+            {
+                srcName:'internalObject',
+                dstName:'newInternalObject',
+                mapper: explicitMapper(internalMap)
+            }
+        ];
+
+    var srcObj = {
+        simpleA: "alpha",
+        internalObject:{
+            simpleB: "beta"
+        }
+    };
+
+    var dstObj = {};
+
+    beforeEach(function(){
+        var mapper = explicitMapper(mapObj);
+        dstObj = mapper.map(srcObj);
+    });
+
+    it('it should map other fields as normal', function(){
+        assert(dstObj.simpleA === "alpha");
+    });
+
+    it('it should map the composite field using the supplied mapper', function(){
+        assert(dstObj.newInternalObject.newSimpleB === "beta");
+    });
+});

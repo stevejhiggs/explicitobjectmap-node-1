@@ -22,6 +22,11 @@ Mappings consist of a simple javascript array containing mapping instructions:
 				return val.toUpperCase();
 			}
 		},
+        {	//will rename the field then run the mapper on that value. This allows embedding mappers inside mappers
+            srcName:'sourceobjectname',
+            dstName:'newname',
+            mapper: explicitMapper(['simpleE'])
+        },
 		{'deep.childA': 'baby'}, //dot notation is currently only supported when renaming fields
 		function(srcObj,dstObj){
 			dstObj.CustomField = 'whatever'; //post mapping function ran after all the other maps are ran 
@@ -61,6 +66,24 @@ If an array of objects is passed in then all objects will be mapped and returned
 
 ### speed
 There is some overhead to the mapping process depending on map size and the amount of source data; this can be mitigated a little by creating the mappings ahead of time and reusing them.
+
+### changes in 0.0.7
+
+#### added ability to embed mappers inside maps
+We can now add mappers inside maps, for example:
+
+```javascript
+var objectToMap = { Name: { First: 'Chris', Last: 'Riddle' }};
+var map1 = ['Firstname'];
+var map2 = [
+    {
+        srcName:'Name',
+        dstName:'IncompleteName',
+        mapper: map1
+    }
+];
+var mappedObject = map2.map(objectToMap); // { IncompleteName: { Firstname: 'Chris' } }
+```
 
 ### changes in 0.0.6
 

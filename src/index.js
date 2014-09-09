@@ -66,7 +66,8 @@ function createFunctionCallListFromMapStructure(mapObj){
 					srcName: srcName,
 					dstName: dstName,
 					transform: copyValWithDotNotation,
-					customTransform: elem.customTransform
+					customTransform: elem.customTransform,
+                    mapper: elem.mapper
 				});
 			}
 			else if (srcName && dstName){
@@ -74,7 +75,8 @@ function createFunctionCallListFromMapStructure(mapObj){
 					srcName: srcName,
 					dstName: dstName,
 					transform: copyVal,
-					customTransform: elem.customTransform
+					customTransform: elem.customTransform,
+                    mapper: elem.mapper
 				});
 			}
 		}
@@ -92,8 +94,13 @@ function applyAllMappingFunctionCallsToObject(srcObj, mapFunctionCalls, options)
     for(var functionCallIndex = 0; functionCallIndex < mapFunctionCalls.length; functionCallIndex++) {
         var transformBlock = mapFunctionCalls[functionCallIndex];
 
-        if (transformBlock.transform(srcObj, dst, transformBlock.srcName, transformBlock.dstName) && transformBlock.customTransform){
-            dst[transformBlock.dstName] = transformBlock.customTransform(srcObj, dst[transformBlock.dstName], options);
+        if (transformBlock.transform(srcObj, dst, transformBlock.srcName, transformBlock.dstName)) {
+            if (transformBlock.customTransform) {
+                dst[transformBlock.dstName] = transformBlock.customTransform(srcObj, dst[transformBlock.dstName], options);
+            }
+            else if (transformBlock.mapper) {
+                dst[transformBlock.dstName] = transformBlock.mapper.map(srcObj[transformBlock.srcName], options);
+            }
         }
     }
 
