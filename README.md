@@ -3,7 +3,7 @@ explicit-object-mapper
 
 Map named fields from one json object to another with optional transforms. Any fields not named in the map will not be copied to the destination object
 
-[![Build Status](https://travis-ci.org/opentable/explicit-object-mapper.svg?branch=master)](https://travis-ci.org/opentable/explicit-object-mapper)
+[![Build Status](https://travis-ci.org/opentable/explicitobjectmap-node.svg?branch=master)](https://travis-ci.org/opentable/explicit-object-mapper)
 
 [![NPM](https://nodei.co/npm/explicit-object-mapper.png)](https://nodei.co/npm/explicit-object-mapper)
 
@@ -67,23 +67,23 @@ If an array of objects is passed in then all objects will be mapped and returned
 ### speed
 There is some overhead to the mapping process depending on map size and the amount of source data; this can be mitigated a little by creating the mappings ahead of time and reusing them.
 
-### changes in 0.0.7
+### changes in 1.0.0
 
 #### added ability to embed mappers inside maps
 We can now add mappers inside maps, for example:
 
-```javascript
-var objectToMap = { Name: { First: 'Chris', Last: 'Riddle' }};
-var map1 = ['Firstname'];
-var map2 = [
-    {
-        srcName:'Name',
-        dstName:'IncompleteName',
-        mapper: map1
-    }
-];
-var mappedObject = map2.map(objectToMap); // { IncompleteName: { Firstname: 'Chris' } }
-```
+
+    var objectToMap = { Name: { First: 'Bob', Last: 'Smith' }};
+    var childMap = ['Firstname'];
+    var rootMap = [
+        {
+            srcName:'Name',
+            dstName:'IncompleteName',
+            mapper: childMap
+        }
+    ];
+    var mappedObject = rootMap.map(objectToMap); // { IncompleteName: { Firstname: 'Bob' } }
+
 
 ### changes in 0.0.6
 
