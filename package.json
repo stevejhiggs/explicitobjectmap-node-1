@@ -1,6 +1,6 @@
 {
   "name": "explicit-object-mapper",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "allows mapping of named fields between javascript objects with optional transforms",
   "main": "src/index.js",
   "directories": {

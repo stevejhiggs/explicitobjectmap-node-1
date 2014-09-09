@@ -22,68 +22,70 @@ function getObjectViaDotNotation(name, context){
 }
 
 function copyValWithDotNotation(src, dst, srcName, dstName){
-	var val = getObjectViaDotNotation(srcName, src);
-	if (val !== undefined) {
-		dst[dstName] = val;
+    var val = getObjectViaDotNotation(srcName, src);
+    if (val !== undefined) {
+        dst[dstName] = val;
         return true;
-	}
+    }
 
     return false;
 }
 
 function createFunctionCallListFromMapStructure(mapObj){
-	var mappingFunctionCalls = [];
-	var postMapFunctionCalls = [];
+    var mappingFunctionCalls = [];
+    var postMapFunctionCalls = [];
 
-	mapObj.forEach(function(elem){
-		if (_.isString(elem)){
-			mappingFunctionCalls.push({
-				srcName: elem,
-				dstName: elem,
-				transform: copyVal
-			});
-		}
+    mapObj.forEach(function(elem){
+        if (_.isString(elem)){
+            mappingFunctionCalls.push({
+                srcName: elem,
+                dstName: elem,
+                transform: copyVal
+            });
+        }
         else if (_.isFunction(elem)){
             postMapFunctionCalls.push(elem);
         }
-		else if (_.isObject(elem)){
-			var srcName;
-			var dstName;
+        else if (_.isObject(elem)){
+            var srcName;
+            var dstName;
 
-			if (elem.srcName){
+            if (elem.srcName){
                 srcName = elem.srcName;
             }
             if (elem.dstName){
-				dstName = elem.dstName;
-			}
-			else{
-				srcName = Object.keys(elem)[0];
-				dstName = elem[srcName];
-			}
+                dstName = elem.dstName;
+            }
+            else{
+                srcName = Object.keys(elem)[0];
+                dstName = elem[srcName];
+            }
 
-			if (srcName.indexOf(".") > 0){
-				mappingFunctionCalls.push({
-					srcName: srcName,
-					dstName: dstName,
-					transform: copyValWithDotNotation,
-					customTransform: elem.customTransform
-				});
-			}
-			else if (srcName && dstName){
-				mappingFunctionCalls.push({
-					srcName: srcName,
-					dstName: dstName,
-					transform: copyVal,
-					customTransform: elem.customTransform
-				});
-			}
-		}
-	});
+            if (srcName.indexOf(".") > 0){
+                mappingFunctionCalls.push({
+                    srcName: srcName,
+                    dstName: dstName,
+                    transform: copyValWithDotNotation,
+                    customTransform: elem.customTransform,
+                    mapper: elem.mapper
+                });
+            }
+            else if (srcName && dstName){
+                mappingFunctionCalls.push({
+                    srcName: srcName,
+                    dstName: dstName,
+                    transform: copyVal,
+                    customTransform: elem.customTransform,
+                    mapper: elem.mapper
+                });
+            }
+        }
+    });
 
-	return {
-		mappingCalls: mappingFunctionCalls,
-		postMapCalls: postMapFunctionCalls
-	};
+    return {
+        mappingCalls: mappingFunctionCalls,
+        postMapCalls: postMapFunctionCalls
+    };
 }
 
 function applyAllMappingFunctionCallsToObject(srcObj, mapFunctionCalls, options){
@@ -92,8 +94,13 @@ function applyAllMappingFunctionCallsToObject(srcObj, mapFunctionCalls, options)
     for(var functionCallIndex = 0; functionCallIndex < mapFunctionCalls.length; functionCallIndex++) {
         var transformBlock = mapFunctionCalls[functionCallIndex];
 
-        if (transformBlock.transform(srcObj, dst, transformBlock.srcName, transformBlock.dstName) && transformBlock.customTransform){
-            dst[transformBlock.dstName] = transformBlock.customTransform(srcObj, dst[transformBlock.dstName], options);
+        if (transformBlock.transform(srcObj, dst, transformBlock.srcName, transformBlock.dstName)) {
+            if (transformBlock.customTransform) {
+                dst[transformBlock.dstName] = transformBlock.customTransform(srcObj, dst[transformBlock.dstName], options);
+            }
+            else if (transformBlock.mapper) {
+                dst[transformBlock.dstName] = transformBlock.mapper.map(srcObj[transformBlock.srcName], options);
+            }
         }
     }
 
@@ -101,18 +108,18 @@ function applyAllMappingFunctionCallsToObject(srcObj, mapFunctionCalls, options)
 }
 
 function applyPostMapFunctionCallsToObject(srcObj, dstObj, postMapFunctionCalls, options){
-	for(var functionCallIndex = 0; functionCallIndex < postMapFunctionCalls.length; functionCallIndex++) {
-		var postMapFunction = postMapFunctionCalls[functionCallIndex];
-		postMapFunction(srcObj, dstObj, options);
-	}
+    for(var functionCallIndex = 0; functionCallIndex < postMapFunctionCalls.length; functionCallIndex++) {
+        var postMapFunction = postMapFunctionCalls[functionCallIndex];
+        postMapFunction(srcObj, dstObj, options);
+    }
 }
 
 function createMappedObject(srcArr, mapFunctionCalls, postMapFunctionCalls, options){
     var dstArr = [];
 
     for(var srcIndex = 0; srcIndex < srcArr.length; srcIndex++){
-    	var mappedObject = applyAllMappingFunctionCallsToObject(srcArr[srcIndex], mapFunctionCalls, options);
-    	applyPostMapFunctionCallsToObject(srcArr[srcIndex], mappedObject, postMapFunctionCalls, options);
+        var mappedObject = applyAllMappingFunctionCallsToObject(srcArr[srcIndex], mapFunctionCalls, options);
+        applyPostMapFunctionCallsToObject(srcArr[srcIndex], mappedObject, postMapFunctionCalls, options);
         dstArr.push(mappedObject);
     }
 
@@ -120,19 +127,19 @@ function createMappedObject(srcArr, mapFunctionCalls, postMapFunctionCalls, opti
 }
 
 module.exports = function(mapping){
-	var functionCalls = createFunctionCallListFromMapStructure(mapping);
+    var functionCalls = createFunctionCallListFromMapStructure(mapping);
 
-	return {
+    return {
         map: function(srcObj, options) {
             if(!srcObj){
                 return null;
             }
 
-        	if (Array.isArray(srcObj)){
+            if (Array.isArray(srcObj)){
                 return createMappedObject(srcObj, functionCalls.mappingCalls, functionCalls.postMapCalls, options);
-        	} else {
-        		return createMappedObject([srcObj], functionCalls.mappingCalls, functionCalls.postMapCalls, options)[0];
-        	}
+            } else {
+                return createMappedObject([srcObj], functionCalls.mappingCalls, functionCalls.postMapCalls, options)[0];
+            }
         }
     };
 };
