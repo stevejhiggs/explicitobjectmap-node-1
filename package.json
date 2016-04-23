@@ -1,21 +1,26 @@
 {
   "name": "explicit-object-mapper",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "allows mapping of named fields between javascript objects with optional transforms",
   "main": "src/index.js",
-  "directories": {
-    "test": "tests"
+  "engines": {
+    "node": ">=4.2.0"
+  },
+  "scripts": {
+    "test": "gulp test"
   },
   "dependencies": {
-    "lodash": "^2.4.1"
+    "lodash": "^4.11.1"
   },
   "devDependencies": {
-    "grunt": "^0.4.4",
-    "grunt-contrib-jshint": "^0.10.0",
-    "mocha": "^1.18.2",
-    "grunt-mocha-test": "^0.10.2",
-    "should": "^3.3.1",
-    "grunt-contrib-watch": "^0.6.1"
+    "eslint": "^2.8.0",
+    "eslint-config-airbnb": "^8.0.0",
+    "eslint-plugin-import": "^1.5.0",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^2.0.0",
+    "gulp-mocha": "^2.2.0",
+    "mocha": "^2.4.5",
+    "should": "^8.3.1"
   },
   "repository": {
     "type": "git",
