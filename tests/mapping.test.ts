@@ -1,7 +1,7 @@
-'use strict';
+import 'mocha';
 
-const assert = require('assert');
-const explicitMapper = require('../src/index');
+import assert from 'assert';
+import explicitMapper from '../src/index';
 
 describe('for a single object', () => {
   it('shouldn\'t break when given a null object', () => {
@@ -21,7 +21,7 @@ describe('for a single object', () => {
       'falsy',
     ];
 
-    const srcObj = {
+    const srcObj: any = {
       simpleA: 'alpha',
       simpleB: 'bravo',
       simpleC: 'charlie',
@@ -29,7 +29,7 @@ describe('for a single object', () => {
       falsy: false,
     };
 
-    let dstObj = {};
+    let dstObj: any = {};
 
     beforeEach(() => {
       const mapper = explicitMapper(mapObj);
@@ -60,14 +60,14 @@ describe('for a single object', () => {
       { 'sub.deep': 'shallow' },
     ];
 
-    const srcObj = {
+    const srcObj: any = {
       oldName: 'alpha',
       sub: {
         deep: 'beta',
       },
     };
 
-    let dstObj = {};
+    let dstObj: any = {};
 
     beforeEach(() => {
       const mapper = explicitMapper(mapObj);
@@ -94,11 +94,11 @@ describe('for a single object', () => {
       },
     ];
 
-    const srcObj = {
+    const srcObj: any = {
       complexoldname: 'alpha',
     };
 
-    let dstObj = {};
+    let dstObj: any = {};
 
     beforeEach(() => {
       const mapper = explicitMapper(mapObj);
@@ -122,11 +122,11 @@ describe('for a single object', () => {
       },
     ];
 
-    const srcObj = {
+    const srcObj: any = {
       fieldA: 'alpha',
     };
 
-    let dstObj = {};
+    let dstObj: any = {};
 
     beforeEach(() => {
       const mapper = explicitMapper(mapObj);
@@ -144,11 +144,11 @@ describe('for an array of objects', () => {
     { simpleA: 'SimpleB' },
   ];
 
-  const srcObj = {
+  const srcObj: any = {
     simpleA: 'alpha',
   };
 
-  let dstObj = {};
+  let dstObj: any = {};
 
   beforeEach(() => {
     const mapper = explicitMapper(mapObj);
@@ -175,12 +175,12 @@ describe('for a single object and given custom mapping args', () => {
     },
   ];
 
-  const srcObj = {
+  const srcObj: any = {
     simpleA: 'alpha',
     complexoldname: 'oldVal',
   };
 
-  let dstObj = {};
+  let dstObj: any = {};
 
   beforeEach(() => {
     const mapper = explicitMapper(mapObj);
@@ -208,14 +208,14 @@ describe('for a single object and given a mapper to map composite objects', () =
     },
   ];
 
-  const srcObj = {
+  const srcObj: any = {
     simpleA: 'alpha',
     internalObject: {
       simpleB: 'beta',
     },
   };
 
-  let dstObj = {};
+  let dstObj: any = {};
 
   beforeEach(() => {
     const mapper = explicitMapper(mapObj);

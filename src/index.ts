@@ -1,8 +1,8 @@
-const isString = require('lodash.isstring');
-const isFunction = require('lodash.isfunction');
-const isObject = require('lodash.isobject');
+import isString from 'lodash.isstring';
+import isFunction from 'lodash.isfunction';
+import isObject from 'lodash.isobject'
 
-const dotNotation = require('./dotNotation');
+import { precomputeCopyValWithDotNotation } from './dotNotation';
 
 const copyVal = (src, dst, srcName, dstName) => {
   const val = src[srcName];
@@ -18,7 +18,7 @@ const createFunctionCallListFromMapStructure = (mapObj) => {
   const mappingFunctionCalls = [];
   const postMapFunctionCalls = [];
 
-  mapObj.forEach((elem) => {
+  mapObj.forEach((elem: any) => {
     if (isString(elem)) {
       mappingFunctionCalls.push({
         srcName: elem,
@@ -28,14 +28,14 @@ const createFunctionCallListFromMapStructure = (mapObj) => {
     } else if (isFunction(elem)) {
       postMapFunctionCalls.push(elem);
     } else if (isObject(elem)) {
-      let srcName;
-      let dstName;
+      let srcName: any;
+      let dstName: any;
 
-      if (elem.srcName) {
-        srcName = elem.srcName;
+      if ((elem as any).srcName) {
+        srcName = (elem as any).srcName;
       }
-      if (elem.dstName) {
-        dstName = elem.dstName;
+      if ((elem as any).dstName) {
+        dstName = (elem as any).dstName;
       } else {
         // eslint-disable-next-line prefer-destructuring
         srcName = Object.keys(elem)[0];
@@ -46,17 +46,17 @@ const createFunctionCallListFromMapStructure = (mapObj) => {
         mappingFunctionCalls.push({
           srcName,
           dstName,
-          transform: dotNotation.precomputeCopyValWithDotNotation(srcName),
-          customTransform: elem.customTransform,
-          mapper: elem.mapper,
+          transform: precomputeCopyValWithDotNotation(srcName),
+          customTransform: (elem as any).customTransform,
+          mapper: (elem as any).mapper,
         });
       } else if (srcName && dstName) {
         mappingFunctionCalls.push({
           srcName,
           dstName,
           transform: copyVal,
-          customTransform: elem.customTransform,
-          mapper: elem.mapper,
+          customTransform: (elem as any).customTransform,
+          mapper: (elem as any).mapper,
         });
       }
     }
@@ -116,7 +116,7 @@ const createMappedObject = (srcArr, mapFunctionCalls, postMapFunctionCalls, opti
   return dstArr;
 };
 
-module.exports = (mapping) => {
+export default function(mapping) {
   const functionCalls = createFunctionCallListFromMapStructure(mapping);
 
   return {

@@ -2,27 +2,37 @@
   "name": "explicit-object-mapper-ng",
   "version": "3.0.0",
   "description": "allows mapping of named fields between javascript objects with optional transforms",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "engines": {
-    "node": ">=10.0.0"
+    "node": ">=8.0.0"
   },
   "scripts": {
     "pretest": "yarn lint",
-    "test": "mocha \"tests/**/*.test.js\"",
-    "lint": "eslint --ignore-path .gitignore ."
+    "test": "mocha \"tests/**/*.test.ts\"",
+    "lint": "eslint --ignore-path .gitignore .",
+    "build": "tsc"
   },
   "dependencies": {
+    "@types/lodash.isfunction": "^3.0.6",
+    "@types/lodash.isobject": "^3.0.6",
+    "@types/lodash.isstring": "^4.0.6",
     "lodash.isfunction": "^3.0.9",
     "lodash.isobject": "^3.0.2",
     "lodash.isstring": "^4.0.1"
   },
   "devDependencies": {
+    "@types/assert": "^1.4.3",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.12.17",
+    "@types/pretty-hrtime": "^1.0.0",
     "assert": "^2.0.0",
     "eslint": "^6.7.2",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-plugin-import": "^2.19.1",
     "mocha": "^6.2.2",
-    "pretty-hrtime": "^1.0.3"
+    "pretty-hrtime": "^1.0.3",
+    "ts-node": "^8.5.4",
+    "typescript": "^3.7.3"
   },
   "repository": {
     "type": "git",

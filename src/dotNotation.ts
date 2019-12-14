@@ -1,4 +1,4 @@
-const getObjectViaDotNotation = (fieldArray, context) => {
+const getObjectViaDotNotation = (fieldArray: string[], context: any) => {
   const p = fieldArray.pop();
 
   for (let i = 0, j; context && (j = fieldArray[i]); i += 1) {
@@ -7,7 +7,7 @@ const getObjectViaDotNotation = (fieldArray, context) => {
   return context && p ? (context[p]) : undefined; // Object
 };
 
-const fastCopyValWithDotNotation = (fieldArray, src, dst, srcName, dstName) => {
+const fastCopyValWithDotNotation = (fieldArray: string[], src, dst, srcName: string, dstName: string): boolean => {
   const val = getObjectViaDotNotation(fieldArray, src);
   if (val !== undefined) {
     dst[dstName] = val;
@@ -17,12 +17,8 @@ const fastCopyValWithDotNotation = (fieldArray, src, dst, srcName, dstName) => {
   return false;
 };
 
-const precomputeCopyValWithDotNotation = (srcName) => {
+export const precomputeCopyValWithDotNotation = (srcName: string) => {
   // build an array of fields to walk down
   const fieldArray = srcName.split('.');
   return fastCopyValWithDotNotation.bind(this, fieldArray);
-};
-
-module.exports = {
-  precomputeCopyValWithDotNotation,
 };

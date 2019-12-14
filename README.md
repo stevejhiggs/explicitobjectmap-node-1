@@ -81,6 +81,14 @@ We can now add mappers inside maps, for example:
     ];
     var mappedObject = rootMap.map(objectToMap); // { IncompleteName: { Firstname: 'Bob' } }
 
+### changes in 3.0.0
+
+* massive package version update
+* sped up maps using dot notation by over 100%
+* reduced dependancies on external packages
+* now needs node >= 8
+* extremely basic typescript support
+
 ### changes in 2.0.0
 Now needs node > 4.2
 Uses es6 features to clean up codebase

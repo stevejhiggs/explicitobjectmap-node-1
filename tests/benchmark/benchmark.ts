@@ -1,5 +1,5 @@
-const prettyHrtime = require('pretty-hrtime');
-const mapper = require('../src/index');
+import prettyHrtime from 'pretty-hrtime';
+import mapper from '../../src/index';
 
 const mapObj = [
   { oldName: 'newName' },
