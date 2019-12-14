@@ -1,13 +1,13 @@
 import 'jest';
 
-import explicitMapper from '../src/index';
+import { createMapper } from '../src/index';
 
 describe('for a single object', () => {
     it("shouldn't break when given a null object", () => {
         const mapObj = ['MyField'];
         const srcObj = null;
 
-        const mapper = explicitMapper(mapObj);
+        const mapper = createMapper(mapObj);
         const dstObj = mapper.map(srcObj);
 
         expect(dstObj).toBe(null);
@@ -27,7 +27,7 @@ describe('for a single object', () => {
         let dstObj: any = {};
 
         beforeEach(() => {
-            const mapper = explicitMapper(mapObj);
+            const mapper = createMapper(mapObj);
             dstObj = mapper.map(srcObj);
         });
 
@@ -62,7 +62,7 @@ describe('for a single object', () => {
         let dstObj: any = {};
 
         beforeEach(() => {
-            const mapper = explicitMapper(mapObj);
+            const mapper = createMapper(mapObj);
             dstObj = mapper.map(srcObj);
         });
 
@@ -93,7 +93,7 @@ describe('for a single object', () => {
         let dstObj: any = {};
 
         beforeEach(() => {
-            const mapper = explicitMapper(mapObj);
+            const mapper = createMapper(mapObj);
             dstObj = mapper.map(srcObj);
         });
 
@@ -121,7 +121,7 @@ describe('for a single object', () => {
         let dstObj: any = {};
 
         beforeEach(() => {
-            const mapper = explicitMapper(mapObj);
+            const mapper = createMapper(mapObj);
             dstObj = mapper.map(srcObj);
         });
 
@@ -141,7 +141,7 @@ describe('for an array of objects', () => {
     let dstObj: any = {};
 
     beforeEach(() => {
-        const mapper = explicitMapper(mapObj);
+        const mapper = createMapper(mapObj);
         dstObj = mapper.map([srcObj, srcObj]);
     });
 
@@ -173,7 +173,7 @@ describe('for a single object and given custom mapping args', () => {
     let dstObj: any = {};
 
     beforeEach(() => {
-        const mapper = explicitMapper(mapObj);
+        const mapper = createMapper(mapObj);
         dstObj = mapper.map(srcObj, { fishVal: 'haddock', breadVal: 'loaf' });
     });
 
@@ -193,7 +193,7 @@ describe('for a single object and given a mapper to map composite objects', () =
         {
             srcName: 'internalObject',
             dstName: 'newInternalObject',
-            mapper: explicitMapper(internalMap),
+            mapper: createMapper(internalMap),
         },
     ];
 
@@ -207,7 +207,7 @@ describe('for a single object and given a mapper to map composite objects', () =
     let dstObj: any = {};
 
     beforeEach(() => {
-        const mapper = explicitMapper(mapObj);
+        const mapper = createMapper(mapObj);
         dstObj = mapper.map(srcObj);
     });
 

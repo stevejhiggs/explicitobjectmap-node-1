@@ -1,6 +1,6 @@
 {
   "name": "explicit-object-mapper-ng",
-  "version": "3.0.0",
+  "version": "4.0.1",
   "description": "allows mapping of named fields between javascript objects with optional transforms",
   "main": "lib/index.js",
   "engines": {
@@ -51,6 +51,7 @@
     "url": "https://github.com/opentable/explicitobjectmap-node/issues"
   },
   "homepage": "https://github.com/opentable/explicitobjectmap-node",
+  "files": ["lib/**/*"],
   "jest": {
     "rootDir": "./",
     "preset": "ts-jest",

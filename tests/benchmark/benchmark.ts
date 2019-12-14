@@ -1,5 +1,5 @@
 import prettyHrtime from 'pretty-hrtime';
-import mapper from '../../src/index';
+import { createMapper } from '../../src/index';
 
 function basicMap() {
   const mapObj = [{ oldName: 'newName' }];
@@ -8,7 +8,7 @@ function basicMap() {
       oldName: 'alpha'
   };
 
-  const map = mapper(mapObj);
+  const map = createMapper(mapObj);
 
   const start = process.hrtime();
 
@@ -31,7 +31,7 @@ function dotNotation() {
       },
   };
 
-  const map = mapper(mapObj);
+  const map = createMapper(mapObj);
 
   const start = process.hrtime();
 

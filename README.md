@@ -48,7 +48,7 @@ const srcObj = {
   oldname: 'changedName'
 };
 
-const mapper = explicitObjectMapper(mapObj);
+const mapper = explicitObjectMapper.createMapper(mapObj);
 const dstObj = mapper.map(srcObj);
 ```
 
@@ -67,6 +67,10 @@ If an array of objects is passed in then all objects will be mapped and returned
 There is some overhead to the mapping process depending on map size and the amount of source data; this can be mitigated a little by creating the mappings ahead of time and reusing them. That said, on my machine the benchmark script, when ran on my machine runs the "basic map" benchmark in 369ms, thats 10 million maps.
 
 ## Changes
+
+### changes in 4.0.0
+
+* changed calling convention to make commonJs interop nicer
 
 ### changes in 3.0.0
 
