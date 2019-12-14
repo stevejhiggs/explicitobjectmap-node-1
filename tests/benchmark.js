@@ -1,11 +1,10 @@
-const mapper = require('./index');
 const prettyHrtime = require('pretty-hrtime');
+const mapper = require('../src/index');
 
-const mapObj =
-  [
-    { oldName: 'newName' },
-    { 'sub.deep': 'shallow' },
-  ];
+const mapObj = [
+  { oldName: 'newName' },
+  { 'sub.deep': 'shallow' },
+];
 
 const srcObj = {
   oldName: 'alpha',
@@ -18,11 +17,10 @@ const map = mapper(mapObj);
 
 const start = process.hrtime();
 
-for (let i = 0; i < 10000000; i++) {
+for (let i = 0; i < 10000000; i += 1) {
   map.map(srcObj);
 }
 
 const elapsed = process.hrtime(start);
 
 console.log(prettyHrtime(elapsed));
-

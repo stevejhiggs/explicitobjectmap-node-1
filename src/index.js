@@ -1,6 +1,8 @@
-'use strict';
+const isString = require('lodash.isstring');
+const isFunction = require('lodash.isfunction');
+const isObject = require('lodash.isobject');
 
-const _ = require('lodash');
+const dotNotation = require('./dotNotation');
 
 const copyVal = (src, dst, srcName, dstName) => {
   const val = src[srcName];
@@ -12,45 +14,20 @@ const copyVal = (src, dst, srcName, dstName) => {
   return false;
 };
 
-const getObjectViaDotNotation = (fieldArray, context) => {
-  const p = fieldArray.pop();
-
-  for (let i = 0, j; context && (j = fieldArray[i]); i++) {
-    context = (j in context ? context[j] : context[j] = {});
-  }
-  return context && p ? (context[p]) : undefined; // Object
-};
-
-const fastCopyValWithDotNotation = (fieldArray, src, dst, srcName, dstName) => {
-  const val = getObjectViaDotNotation(fieldArray, src);
-  if (val !== undefined) {
-    dst[dstName] = val;
-    return true;
-  }
-
-  return false;
-};
-
-const precomputeCopyValWithDotNotation = (srcName) => {
-  // build an array of fields to walk down
-  const fieldArray = srcName.split('.');
-  return fastCopyValWithDotNotation.bind(this, fieldArray);
-};
-
 const createFunctionCallListFromMapStructure = (mapObj) => {
   const mappingFunctionCalls = [];
   const postMapFunctionCalls = [];
 
   mapObj.forEach((elem) => {
-    if (_.isString(elem)) {
+    if (isString(elem)) {
       mappingFunctionCalls.push({
         srcName: elem,
         dstName: elem,
         transform: copyVal,
       });
-    } else if (_.isFunction(elem)) {
+    } else if (isFunction(elem)) {
       postMapFunctionCalls.push(elem);
-    } else if (_.isObject(elem)) {
+    } else if (isObject(elem)) {
       let srcName;
       let dstName;
 
@@ -60,6 +37,7 @@ const createFunctionCallListFromMapStructure = (mapObj) => {
       if (elem.dstName) {
         dstName = elem.dstName;
       } else {
+        // eslint-disable-next-line prefer-destructuring
         srcName = Object.keys(elem)[0];
         dstName = elem[srcName];
       }
@@ -68,7 +46,7 @@ const createFunctionCallListFromMapStructure = (mapObj) => {
         mappingFunctionCalls.push({
           srcName,
           dstName,
-          transform: precomputeCopyValWithDotNotation(srcName),
+          transform: dotNotation.precomputeCopyValWithDotNotation(srcName),
           customTransform: elem.customTransform,
           mapper: elem.mapper,
         });
@@ -93,7 +71,7 @@ const createFunctionCallListFromMapStructure = (mapObj) => {
 const applyAllMappingFunctionCallsToObject = (srcObj, mapFunctionCalls, options) => {
   const dst = {};
 
-  for (let functionCallIndex = 0; functionCallIndex < mapFunctionCalls.length; functionCallIndex++) {
+  for (let functionCallIndex = 0; functionCallIndex < mapFunctionCalls.length; functionCallIndex += 1) {
     const transformBlock = mapFunctionCalls[functionCallIndex];
 
     if (transformBlock.transform(srcObj, dst, transformBlock.srcName, transformBlock.dstName)) {
@@ -109,7 +87,7 @@ const applyAllMappingFunctionCallsToObject = (srcObj, mapFunctionCalls, options)
 };
 
 const applyPostMapFunctionCallsToObject = (srcObj, dstObj, postMapFunctionCalls, options) => {
-  for (let functionCallIndex = 0; functionCallIndex < postMapFunctionCalls.length; functionCallIndex++) {
+  for (let functionCallIndex = 0; functionCallIndex < postMapFunctionCalls.length; functionCallIndex += 1) {
     const postMapFunction = postMapFunctionCalls[functionCallIndex];
     postMapFunction(srcObj, dstObj, options);
   }
@@ -118,18 +96,18 @@ const applyPostMapFunctionCallsToObject = (srcObj, dstObj, postMapFunctionCalls,
 const createMappedObject = (srcArr, mapFunctionCalls, postMapFunctionCalls, options) => {
   const dstArr = [];
 
-  for (let srcIndex = 0; srcIndex < srcArr.length; srcIndex++) {
+  for (let srcIndex = 0; srcIndex < srcArr.length; srcIndex += 1) {
     const mappedObject = applyAllMappingFunctionCallsToObject(
       srcArr[srcIndex],
       mapFunctionCalls,
-      options
+      options,
     );
 
     applyPostMapFunctionCallsToObject(
       srcArr[srcIndex],
       mappedObject,
       postMapFunctionCalls,
-      options
+      options,
     );
 
     dstArr.push(mappedObject);
@@ -152,7 +130,7 @@ module.exports = (mapping) => {
           srcObj,
           functionCalls.mappingCalls,
           functionCalls.postMapCalls,
-          options
+          options,
         );
       }
 
@@ -160,7 +138,7 @@ module.exports = (mapping) => {
         [srcObj],
         functionCalls.mappingCalls,
         functionCalls.postMapCalls,
-        options
+        options,
       )[0];
     },
   };

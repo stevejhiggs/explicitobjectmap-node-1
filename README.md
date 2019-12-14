@@ -1,11 +1,8 @@
-explicit-object-mapper
+explicit-object-mapper-ng
 ======================
 
-Map named fields from one json object to another with optional transforms. Any fields not named in the map will not be copied to the destination object
+Map named fields from one json object to another with optional transforms. Any fields not named in the map will not be copied to the destination object. This is a hard fork from https://github.com/opentable/explicitobjectmap-node which I originally wrote but now can't get fixes into
 
-[![Build Status](https://travis-ci.org/opentable/explicitobjectmap-node.svg?branch=master)](https://travis-ci.org/opentable/explicit-object-mapper)
-
-[![NPM](https://nodei.co/npm/explicit-object-mapper.png)](https://nodei.co/npm/explicit-object-mapper)
 
 Mappings consist of a simple javascript array containing mapping instructions:
 
@@ -34,7 +31,7 @@ Mappings consist of a simple javascript array containing mapping instructions:
 	]
 
 ### Installation
-	npm install explicit-object-mapper
+	npm install explicit-object-mapper-ng
 
 ### usage
 

@@ -15,12 +15,11 @@ describe('for a single object', () => {
   });
 
   describe('and a mapping consisting of simple copies', () => {
-    const mapObj =
-      [
-        'simpleA',
-        'simpleC',
-        'falsy',
-      ];
+    const mapObj = [
+      'simpleA',
+      'simpleC',
+      'falsy',
+    ];
 
     const srcObj = {
       simpleA: 'alpha',
@@ -56,11 +55,10 @@ describe('for a single object', () => {
   });
 
   describe('and a mapping consisting of field aliases', () => {
-    const mapObj =
-      [
-        { oldName: 'newName' },
-        { 'sub.deep': 'shallow' },
-      ];
+    const mapObj = [
+      { oldName: 'newName' },
+      { 'sub.deep': 'shallow' },
+    ];
 
     const srcObj = {
       oldName: 'alpha',
@@ -86,16 +84,15 @@ describe('for a single object', () => {
   });
 
   describe('and a mapping with custom value transforms', () => {
-    const mapObj =
-      [
-        {
-          srcName: 'complexoldname',
-          dstName: 'complexnewname',
-          customTransform: (srcObj, val) => {
-            return val.toUpperCase();
-          },
+    const mapObj = [
+      {
+        srcName: 'complexoldname',
+        dstName: 'complexnewname',
+        customTransform: (srcObj, val) => {
+          return val.toUpperCase();
         },
-      ];
+      },
+    ];
 
     const srcObj = {
       complexoldname: 'alpha',
@@ -118,13 +115,12 @@ describe('for a single object', () => {
   });
 
   describe('and a mapping with post mapping transforms', () => {
-    const mapObj =
-      [
-        'fieldA',
-        (srcObj, dstObj) => {
-          dstObj.Custom = 'fish';
-        },
-      ];
+    const mapObj = [
+      'fieldA',
+      (srcObj, dstObj) => {
+        dstObj.Custom = 'fish';
+      },
+    ];
 
     const srcObj = {
       fieldA: 'alpha',
@@ -144,10 +140,9 @@ describe('for a single object', () => {
 });
 
 describe('for an array of objects', () => {
-  const mapObj =
-    [
-      { simpleA: 'SimpleB' },
-    ];
+  const mapObj = [
+    { simpleA: 'SimpleB' },
+  ];
 
   const srcObj = {
     simpleA: 'alpha',
@@ -167,19 +162,18 @@ describe('for an array of objects', () => {
 });
 
 describe('for a single object and given custom mapping args', () => {
-  const mapObj =
-    [
-      {
-        srcName: 'complexoldname',
-        dstName: 'complexnewname',
-        customTransform: (srcObj, val, options) => {
-          return val + options.breadVal.toUpperCase();
-        },
+  const mapObj = [
+    {
+      srcName: 'complexoldname',
+      dstName: 'complexnewname',
+      customTransform: (srcObj, val, options) => {
+        return val + options.breadVal.toUpperCase();
       },
-      (srcObj, dstObj, options) => {
-        dstObj.Custom = options.fishVal;
-      },
-    ];
+    },
+    (srcObj, dstObj, options) => {
+      dstObj.Custom = options.fishVal;
+    },
+  ];
 
   const srcObj = {
     simpleA: 'alpha',
@@ -205,15 +199,14 @@ describe('for a single object and given custom mapping args', () => {
 
 describe('for a single object and given a mapper to map composite objects', () => {
   const internalMap = [{ simpleB: 'newSimpleB' }];
-  const mapObj =
-    [
-      'simpleA',
-      {
-        srcName: 'internalObject',
-        dstName: 'newInternalObject',
-        mapper: explicitMapper(internalMap),
-      },
-    ];
+  const mapObj = [
+    'simpleA',
+    {
+      srcName: 'internalObject',
+      dstName: 'newInternalObject',
+      mapper: explicitMapper(internalMap),
+    },
+  ];
 
   const srcObj = {
     simpleA: 'alpha',
