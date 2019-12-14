@@ -1,6 +1,5 @@
-import 'mocha';
+import 'jest';
 
-import assert from 'assert';
 import explicitMapper from '../src/index';
 
 describe('for a single object', () => {
@@ -11,7 +10,7 @@ describe('for a single object', () => {
         const mapper = explicitMapper(mapObj);
         const dstObj = mapper.map(srcObj);
 
-        assert(dstObj === null);
+        expect(dstObj).toBe(null);
     });
 
     describe('and a mapping consisting of simple copies', () => {
@@ -33,20 +32,20 @@ describe('for a single object', () => {
         });
 
         it('should copy mapped fields that exist to the destination', () => {
-            assert(dstObj.simpleA === 'alpha');
-            assert(dstObj.simpleC === 'charlie');
+            expect(dstObj.simpleA).toBe('alpha');
+            expect(dstObj.simpleC).toBe('charlie');
         });
 
         it('shouldnt copy mapped fields that exist to the destination', () => {
-            assert(!dstObj.simpleB);
+            expect(dstObj.simpleB).not.toBeDefined;
         });
 
         it('shouldnt copy fields that do not exist in the map', () => {
-            assert(!dstObj.simpleD);
+            expect(dstObj.simpleD).not.toBeDefined;
         });
 
         it('should copy falsy fields', () => {
-            assert(dstObj.falsy !== undefined);
+            expect(dstObj.falsy).not.toEqual(undefined);
         });
     });
 
@@ -68,11 +67,11 @@ describe('for a single object', () => {
         });
 
         it('should map the old field to the new field', () => {
-            assert(dstObj.newName === 'alpha');
+            expect(dstObj.newName).toEqual('alpha');
         });
 
         it('should handle dot notation in the source field', () => {
-            assert(dstObj.shallow === 'beta');
+            expect(dstObj.shallow).toEqual('beta');
         });
     });
 
@@ -99,11 +98,11 @@ describe('for a single object', () => {
         });
 
         it('should map the old field to the new field', () => {
-            assert(dstObj.complexnewname);
+            expect(dstObj.complexnewname).toBeDefined;
         });
 
         it('should run the custom transform', () => {
-            assert(dstObj.complexnewname === 'ALPHA');
+            expect(dstObj.complexnewname).toEqual('ALPHA');
         });
     });
 
@@ -127,7 +126,7 @@ describe('for a single object', () => {
         });
 
         it('should run the custom transform', () => {
-            assert(dstObj.Custom === 'fish');
+            expect(dstObj.Custom).toEqual('fish');
         });
     });
 });
@@ -147,8 +146,8 @@ describe('for an array of objects', () => {
     });
 
     it('should map all elements of the array', () => {
-        assert(dstObj.length === 2);
-        assert(dstObj[1].SimpleB === 'alpha');
+        expect(dstObj.length).toEqual(2);
+        expect(dstObj[1].SimpleB).toEqual('alpha');
     });
 });
 
@@ -179,11 +178,11 @@ describe('for a single object and given custom mapping args', () => {
     });
 
     it('it should pass the mapping options to a custom element mapping function', () => {
-        assert(dstObj.complexnewname === 'oldValLOAF');
+        expect(dstObj.complexnewname).toEqual('oldValLOAF');
     });
 
     it('it should pass the mapping options to a post mapping function', () => {
-        assert(dstObj.Custom === 'haddock');
+        expect(dstObj.Custom).toEqual('haddock');
     });
 });
 
@@ -213,10 +212,10 @@ describe('for a single object and given a mapper to map composite objects', () =
     });
 
     it('it should map other fields as normal', () => {
-        assert(dstObj.simpleA === 'alpha');
+        expect(dstObj.simpleA).toEqual('alpha');
     });
 
     it('it should map the composite field using the supplied mapper', () => {
-        assert(dstObj.newInternalObject.newSimpleB === 'beta');
+        expect(dstObj.newInternalObject.newSimpleB).toEqual('beta');
     });
 });

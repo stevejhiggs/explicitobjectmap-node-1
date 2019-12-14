@@ -8,33 +8,31 @@
   },
   "scripts": {
     "pretest": "yarn lint",
-    "test": "mocha \"tests/**/*.test.ts\"",
+    "test": "jest",
     "lint": "eslint --ignore-path .gitignore .",
     "format": "prettier --write '**/*.{ts,js,yaml}'",
     "build": "tsc"
   },
   "dependencies": {
-    "@types/lodash.isfunction": "^3.0.6",
-    "@types/lodash.isobject": "^3.0.6",
-    "@types/lodash.isstring": "^4.0.6",
     "lodash.isfunction": "^3.0.9",
-    "lodash.isobject": "^3.0.2",
     "lodash.isstring": "^4.0.1"
   },
   "devDependencies": {
     "@types/assert": "^1.4.3",
-    "@types/mocha": "^5.2.7",
+    "@types/jest": "^24.0.23",
+    "@types/lodash.isfunction": "^3.0.6",
+    "@types/lodash.isstring": "^4.0.6",
     "@types/node": "^12.12.17",
     "@types/pretty-hrtime": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^2.11.0",
     "@typescript-eslint/parser": "^2.11.0",
-    "assert": "^2.0.0",
     "eslint": "^6.7.2",
     "eslint-config-prettier": "^6.7.0",
     "eslint-plugin-prettier": "^3.1.1",
-    "mocha": "^6.2.2",
+    "jest": "^24.9.0",
     "prettier": "^1.19.1",
     "pretty-hrtime": "^1.0.3",
+    "ts-jest": "^24.2.0",
     "ts-node": "^8.5.4",
     "typescript": "^3.7.3"
   },
@@ -52,5 +50,12 @@
   "bugs": {
     "url": "https://github.com/opentable/explicitobjectmap-node/issues"
   },
-  "homepage": "https://github.com/opentable/explicitobjectmap-node"
+  "homepage": "https://github.com/opentable/explicitobjectmap-node",
+  "jest": {
+    "rootDir": "./",
+    "preset": "ts-jest",
+    "testMatch": [
+      "<rootDir>/tests/**/*.{spec,test}.{ts,tsx}"
+    ]
+  }
 }

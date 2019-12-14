@@ -1,8 +1,8 @@
 import isString from 'lodash.isstring';
 import isFunction from 'lodash.isfunction';
-import isObject from 'lodash.isobject';
 
 import { precomputeCopyValWithDotNotation } from './dotNotation';
+import { isObject } from './utils';
 
 const copyVal = (src, dst, srcName, dstName) => {
     const val = src[srcName];
@@ -37,7 +37,6 @@ const createFunctionCallListFromMapStructure = mapObj => {
             if ((elem as any).dstName) {
                 dstName = (elem as any).dstName;
             } else {
-                // eslint-disable-next-line prefer-destructuring
                 srcName = Object.keys(elem)[0];
                 dstName = elem[srcName];
             }
