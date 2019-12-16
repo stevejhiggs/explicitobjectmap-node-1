@@ -1,10 +1,5 @@
-const getObjectViaDotNotation = (fieldArray: string[], context: any | undefined) => {
-    const p = fieldArray.pop();
-
-    for (let i = 0, j; context && (j = fieldArray[i]); i += 1) {
-        context = j in context ? context[j] : (context[j] = {});
-    }
-    return context && p ? context[p] : undefined; // Object
+const getObjectViaDotNotation = (fieldArray: string[], context: any | undefined): any => {
+    return fieldArray.reduce((o, i) => o[i], context);
 };
 
 const fastCopyValWithDotNotation = (fieldArray: string[], src, dst, srcName: string, dstName: string): boolean => {
