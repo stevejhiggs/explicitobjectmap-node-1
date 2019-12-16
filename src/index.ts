@@ -110,7 +110,7 @@ const createMappedObject = (srcArr, mapFunctionCalls, postMapFunctionCalls, opti
     return dstArr;
 };
 
-export const createMapper = (mapping) => {
+export const createMapper = mapping => {
     const functionCalls = createFunctionCallListFromMapStructure(mapping);
 
     return {
@@ -126,4 +126,4 @@ export const createMapper = (mapping) => {
             return createMappedObject([srcObj], functionCalls.mappingCalls, functionCalls.postMapCalls, options)[0];
         },
     };
-}
+};

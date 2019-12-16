@@ -2,46 +2,46 @@ import prettyHrtime from 'pretty-hrtime';
 import { createMapper } from '../../src/index';
 
 function basicMap() {
-  const mapObj = [{ oldName: 'newName' }];
+    const mapObj = [{ oldName: 'newName' }];
 
-  const srcObj = {
-      oldName: 'alpha'
-  };
+    const srcObj = {
+        oldName: 'alpha',
+    };
 
-  const map = createMapper(mapObj);
+    const map = createMapper(mapObj);
 
-  const start = process.hrtime();
+    const start = process.hrtime();
 
-  for (let i = 0; i < 10000000; i += 1) {
-      map.map(srcObj);
-  }
+    for (let i = 0; i < 10000000; i += 1) {
+        map.map(srcObj);
+    }
 
-  const elapsed = process.hrtime(start);
+    const elapsed = process.hrtime(start);
 
-  console.log(`basic map: ${prettyHrtime(elapsed)}`);
+    console.log(`basic map: ${prettyHrtime(elapsed)}`);
 }
 
 function dotNotation() {
-  const mapObj = [{ oldName: 'newName' }, { 'sub.deep': 'shallow' }];
+    const mapObj = [{ oldName: 'newName' }, { 'sub.deep': 'shallow' }];
 
-  const srcObj = {
-      oldName: 'alpha',
-      sub: {
-          deep: 'beta',
-      },
-  };
+    const srcObj = {
+        oldName: 'alpha',
+        sub: {
+            deep: 'beta',
+        },
+    };
 
-  const map = createMapper(mapObj);
+    const map = createMapper(mapObj);
 
-  const start = process.hrtime();
+    const start = process.hrtime();
 
-  for (let i = 0; i < 10000000; i += 1) {
-      map.map(srcObj);
-  }
+    for (let i = 0; i < 10000000; i += 1) {
+        map.map(srcObj);
+    }
 
-  const elapsed = process.hrtime(start);
+    const elapsed = process.hrtime(start);
 
-  console.log(`dot notation: ${prettyHrtime(elapsed)}`);
+    console.log(`dot notation: ${prettyHrtime(elapsed)}`);
 }
 
 basicMap();
