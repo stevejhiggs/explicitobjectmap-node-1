@@ -1,6 +1,6 @@
 # explicit-object-mapper-ng
 
-Map named fields from one json object to another with optional transforms. Any fields not named in the map will not be copied to the destination object. This is a hard fork from https://github.com/opentable/explicitobjectmap-node which I originally wrote but now appears to have no maintainers.
+Map named fields from one json object to another with optional transforms. Any fields not named in the map will not be copied to the destination object. This is a hard fork from https://github.com/opentable/explicitobjectmap-node which now appears to have no maintainers.
 
 
 Mappings consist of a simple javascript array containing mapping instructions:
